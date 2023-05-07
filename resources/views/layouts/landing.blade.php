@@ -16,6 +16,10 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <x-menu />
-        {{$slot}}
+        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <!-- Content goes here -->
+            {{$slot}}
+          </div>
+       
     </body>
 </html>
