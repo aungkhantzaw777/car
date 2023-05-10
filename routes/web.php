@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,8 @@ Route::get('/', function () {
 Route::get('/cart', function() {
     return view('cart');
 });
+
+Route::get('/cars', [LandingPageController::class, 'cars']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

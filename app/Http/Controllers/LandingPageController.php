@@ -13,4 +13,13 @@ class LandingPageController extends Controller
 
         return response()->json($data);
     }
+
+    public function cars() 
+    {
+        $data = file_get_contents(public_path('car.json'));
+        $cars = json_decode($data, true);
+        $carsCollection = collect($cars['Cars']);
+        
+        return view('cars', compact('carsCollection'));
+    }
 }
