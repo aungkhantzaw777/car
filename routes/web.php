@@ -30,6 +30,7 @@ Route::get('/clear', [ShoppingCartController::class, 'delete']);
 
 # checkout
 Route::get('/checkout', [CheckoutController::class, 'index']);
+Route::post('/checkout', [CheckoutController::class, 'store']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
