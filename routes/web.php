@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ShoppingCartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,11 +21,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/cart', function() {
-    return view('cart');
-});
+Route::get('/cart', [ShoppingCartController::class, 'index']);
 
+Route::post('/cart', [ShoppingCartController::class, 'store']);
 Route::get('/cars', [LandingPageController::class, 'cars']);
+Route::get('/cars-test', [ShoppingCartController::class, 'index']);
+Route::get('/clear', [ShoppingCartController::class, 'delete']);
+
+# checkout
+Route::get('/checkout', [CheckoutController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

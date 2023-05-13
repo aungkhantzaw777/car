@@ -24,10 +24,19 @@
         <span class="text-sm">Category : {{ $category ?? '' }} </span>
       </div>
       <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 mb-4">{{$description ?? ''}}</p>
-      <button class="btn btn-blue w-full">
+    </div>
+    <form method="post" action="/cart"> 
+      @csrf
+      <input type="hidden" name="id" value="{{$id}}">
+      <input type="hidden" name="name" value="{{$name}}">
+      <input type="hidden" name="price" value="{{$seat}}">
+      <input type="hidden" name="seat" value="{{$mileage}}">
+      <input type="hidden" name="category" value="{{$category}}">
+      <input type="hidden" name="image" value="{{$image}}">
+      <button type="submit" class="btn btn-blue w-full">
         Add to cart
       </button>
-    </div>
+    </form>
     
   </div>
 </article>

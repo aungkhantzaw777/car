@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('rental_histories', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
+            $table->text('address1');
+            $table->text('address2')->nullable();
+            $table->string('city');
+            $table->string('state');
+            $table->string('postal_code');
             $table->timestamps();
         });
     }
