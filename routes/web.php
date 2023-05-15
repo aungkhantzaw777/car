@@ -21,16 +21,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+# shopping cart route
 Route::get('/cart', [ShoppingCartController::class, 'index']);
-
 Route::post('/cart', [ShoppingCartController::class, 'store']);
 Route::get('/cars', [LandingPageController::class, 'cars']);
 Route::get('/cars-test', [ShoppingCartController::class, 'index']);
 Route::get('/clear', [ShoppingCartController::class, 'delete']);
+Route::post('/addtocarts', [ShoppingCartController::class, 'addtocarts']);
 
 # checkout
 Route::get('/checkout', [CheckoutController::class, 'index']);
 Route::post('/checkout', [CheckoutController::class, 'store']);
+
+# thank you route
+Route::get('/thankyou', function() {
+    return view('thankyou');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

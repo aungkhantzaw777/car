@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RentCar;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
@@ -20,6 +22,19 @@ class LandingPageController extends Controller
         $cars = json_decode($data, true);
         $carsCollection = collect($cars['Cars']);
         
+        $rentedCars = RentCar::where('overdue', '>=' , Carbon::now())->get();
+
+        $carsCollection->transform(function ($car) use ($rentedCars) {
+            // echo $car['id'];
+            foreach ($rentedCars as $rentCar) {
+                if ($car['id'] == $rentCar['car_id']) {
+                    $car['Availability'] = 'false';
+                }
+            }
+            return $car;
+        });
+
+
         return view('cars', compact('carsCollection'));
     }
 }

@@ -22,6 +22,14 @@
         <span class="text-sm">Seat : {{ $seat ?? '' }} </span>
         <span class="text-sm">Mileage : {{ $mileage ?? '' }} </span>
         <span class="text-sm">Category : {{ $category ?? '' }} </span>
+        <span class="text-sm">Category : 
+          @if($avaliable == 'true'):
+          <span class="inline-flex items-center rounded-md bg-green-100 px-1.5 py-0.5 text-xs font-medium text-green-700">Avaliable</span> 
+          @else 
+          <span class="inline-flex items-center rounded-md bg-red-100 px-1.5 py-0.5 text-xs font-medium text-red-700">UnAvaliable</span> 
+          @endif
+      
+      </span>
       </div>
       <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 mb-4">{{$description ?? ''}}</p>
     </div>

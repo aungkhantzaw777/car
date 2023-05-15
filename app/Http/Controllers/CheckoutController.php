@@ -28,18 +28,19 @@ class CheckoutController extends Controller
         $history = RentalHistory::create($newRent);
         $cars = $request->session()->get('cars', []);
         $currentDate = Carbon::now();
-        $overdue = $currentDate->addDay();
         foreach($cars as $car) {
+            $overdue = $currentDate->addDay((int)$car['perday'] ?? 1);
+
             RentCar::create([
                 'car_id' => $car['id'],
                 'overdue' => $overdue->format('Y-m-d H:i:s'),
                 'rental_history_id' => $history->id
-
-
             ]);
         }
 
-        return redirect('/');
+        session()->flush();
+
+        return redirect('/thankyou');
         
     }
 }

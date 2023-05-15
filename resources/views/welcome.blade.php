@@ -1,5 +1,3 @@
-
-
 <x-landing-layout>
     
 

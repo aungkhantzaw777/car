@@ -42,6 +42,35 @@ class ShoppingCartController extends Controller
         return redirect()->back();
     }
 
+    public function addtocarts(Request $request) 
+    {
+        $ids = $request->input('ids');
+        $perdays = $request->input('perdays');
+        $newCart = [];
+        for ($i = 0; $i < count($ids); $i++) {
+            array_push($newCart , [
+                'id' => $ids[$i],
+                'perday' => $perdays[$i]
+            ]);
+        }
+
+        $cars = collect($request->session()->get('cars', []));
+
+        $cars->transform(function ($car) use ($newCart) {
+            foreach ($newCart as $newCar) {
+                if ($car['id'] === $newCar['id']) {
+                    $car['perday'] = $newCar['perday'];
+                    break;
+                }
+            }
+            return $car;
+        });
+
+        $request->session()->put('cars', $cars);
+
+        return redirect('/checkout');
+    }
+
     public function delete()
     {
         session()->flush();
