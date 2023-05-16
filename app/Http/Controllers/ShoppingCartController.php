@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RentCar;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ShoppingCartController extends Controller
@@ -19,12 +21,23 @@ class ShoppingCartController extends Controller
     }
     public function store(Request $request)
     {
-        $id = $request->input('id');
         $data = $request->all(['id', 'name', 'category', 'price', 'seat', 'image']);
+
+        $rentedCars = RentCar::where('overdue', '>=' , Carbon::now())->get();
 
         $cars = $request->session()->get('cars', []);
 
-        // check if item already exists in cart
+        # check overdue
+        $isAvaliable = true;
+        foreach ($rentedCars as $rentCar) {
+            if ($data['id'] == $rentCar['car_id']) {
+                $isAvaliable = false;
+            }
+        }
+        if(!$isAvaliable){
+            return redirect()->back()->with('error', 'This vehicle is not avaliable to book right now!');
+        }
+        # check if item already exists in cart
         $itemExists = false;
         foreach ($cars as $key => $cartItem) {
             if ($cartItem['id'] == $data['id']) {
