@@ -37,4 +37,15 @@ class LandingPageController extends Controller
 
         return view('cars', compact('carsCollection'));
     }
+    public function detail($id)
+    {
+        $jsonString = file_get_contents(public_path('car.json'));
+        $cars = json_decode($jsonString, true);
+
+        $carsCollection = collect($cars['Cars']);
+
+        $car = $carsCollection->where('id', '=', $id)->first();
+
+        return view('detail', compact('car'));
+    }
 }

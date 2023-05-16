@@ -22,7 +22,7 @@
         <span class="text-sm">Seat : {{ $seat ?? '' }} </span>
         <span class="text-sm">Mileage : {{ $mileage ?? '' }} </span>
         <span class="text-sm">Category : {{ $category ?? '' }} </span>
-        <span class="text-sm">Category : 
+        <span class="text-sm">
           @if($avaliable == 'true'):
           <span class="inline-flex items-center rounded-md bg-green-100 px-1.5 py-0.5 text-xs font-medium text-green-700">Avaliable</span> 
           @else 
@@ -31,7 +31,7 @@
       
       </span>
       </div>
-      <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600 mb-4">{{$description ?? ''}}</p>
+      <p class="mt-5 text-sm leading-6 text-gray-600 mb-4">{{$description ?? ''}}</p>
     </div>
     <form method="post" action="/cart"> 
       @csrf
