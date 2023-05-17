@@ -33,6 +33,7 @@ class CheckoutController extends Controller
             'postal_code' => 'required|string|max:255',
         ]);
         $newRent = $request->all();
+        $newRent['status'] = 'pending';
         $history = RentalHistory::create($newRent);
         $cars = $request->session()->get('cars', []);
         $currentDate = Carbon::now();

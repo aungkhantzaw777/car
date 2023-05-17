@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RentalHistory;
 use App\Models\RentCar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LandingPageController extends Controller
 {
@@ -47,5 +49,22 @@ class LandingPageController extends Controller
         $car = $carsCollection->where('id', '=', $id)->first();
 
         return view('detail', compact('car'));
+    }
+
+    public function checkuser(Request $request) 
+    {
+        if(!$request->email){
+            $errorMessage = 'email is required';
+
+            return response()->json([
+                'error' => $errorMessage,
+            ], Response::HTTP_BAD_REQUEST);
+
+        }
+        $users = RentalHistory::where('email', '=', $request->email)->get();
+        $count = count($users);
+        return response()->json([
+            'count' => $count
+        ]);
     }
 }

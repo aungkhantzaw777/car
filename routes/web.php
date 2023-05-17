@@ -39,6 +39,9 @@ Route::get('/thankyou', function() {
     return view('thankyou');
 });
 
+# Api
+Route::get('/check/user', [LandingPageController::class, 'checkuser']);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
