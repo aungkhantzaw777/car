@@ -11,7 +11,15 @@ class CheckoutController extends Controller
 {
     public function index(Request $request)
     {
-        return view('checkout');
+        $cars = $request->session()->get('cars', []);
+
+        $total = 0;
+        foreach($cars as $car) {
+            $total += (int)$car['perday'] * (int)$car['price'];
+        }
+        // dd($total);
+
+        return view('checkout', compact('cars', 'total'));
     }
     public function store(Request $request)
     {

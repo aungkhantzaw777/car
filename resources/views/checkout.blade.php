@@ -1,8 +1,8 @@
 <x-landing-layout>
-    <div class="max-w-5xl shadow-md rounded-lg p-4 mt-4 mx-auto">
+    <div class="max-w-7xl  rounded-lg p-4 mt-4 mx-auto">
         <h1>Checkout</h1>
-        <div class="grid grid-cols-3">
-            <div class="col-span-2">
+        <div class="grid grid-cols-3 gap-4">
+            <div class="col-span-2 shadow-md rounded-lg p-4">
                 <form method="post" action="/checkout">
                     @csrf
                     <div>
@@ -99,9 +99,31 @@
                 </form>
             </div>
             <div class="col-span-1">
-                <div class="shadow-md rounded-lg">
-
+                <div class="shadow-md rounded-lg p-4 space-y-3 ">
+                    @foreach($cars as $car)
+                        {{-- {{$car['id']}} --}}
+                        <div class="flex w-full flex-nowrap">
+                            <div class="w-1/3">
+                                <img src="{{ $car['image'] }}" alt="Images">
+                            </div>
+                            <div class="pl-3 w-2/3 flex flex-col">
+                                <h1 class=" text-sm">{{ $car['name'] }}</h1>
+                                <div>
+                                    <span class="text-gray-500"> {{ $car['category'] }}</span>
+                                </div>
+                                <div class="flex justify-between ">
+                                    <span>Perday : {{ $car['perday'] }}</span>
+                                    <span>$ {{ (int)$car['price'] * (int)$car['perday'] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    <div class="flex justify-between border-t border-gray-300 p-3">
+                        <h1 class="text-sm">Total</h1>
+                        <span>$ {{ $total }}</span>
+                    </div>
                 </div>
+                
             </div>
         </div>
         
