@@ -1,7 +1,6 @@
 <x-landing-layout>
     <div x-data="checkout()" class="max-w-7xl rounded-lg p-4 mt-4 mx-auto">
         <h1>Checkout</h1>
-        <h1 x-text="isOpen"></h1>
         <div class="grid grid-cols-3 gap-4">
             <div class="col-span-2 shadow-md rounded-lg p-4">
                 <form method="post" action="/checkout">
@@ -277,7 +276,13 @@
                                         <template x-if="!isFetch">
                                             <p class="text-sm text-gray-500">
                                                 your total price is
-                                                <b x-text="total"></b>
+                                                <span class="font-semibold"
+                                                    >$</span
+                                                >
+                                                <span
+                                                    class="font-semibold"
+                                                    x-text="total"
+                                                ></span>
                                             </p>
                                         </template>
                                     </div>

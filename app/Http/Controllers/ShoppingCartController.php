@@ -21,9 +21,9 @@ class ShoppingCartController extends Controller
     }
     public function store(Request $request)
     {
-        $data = $request->all(['id', 'name', 'category', 'price', 'seat', 'image']);
+        $data = $request->all(['id', 'name', 'category', 'price', 'seat', 'image', 'perdays']);
 
-        $rentedCars = RentCar::where('overdue', '>=' , Carbon::now())->get();
+        $rentedCars = RentCar::where('overdue', '>=', Carbon::now())->get();
 
         $cars = $request->session()->get('cars', []);
 
@@ -34,7 +34,7 @@ class ShoppingCartController extends Controller
                 $isAvaliable = false;
             }
         }
-        if(!$isAvaliable){
+        if (!$isAvaliable) {
             return redirect()->back()->with('error', 'This vehicle is not avaliable to book right now!');
         }
         # check if item already exists in cart
@@ -55,13 +55,13 @@ class ShoppingCartController extends Controller
         return redirect()->back();
     }
 
-    public function addtocarts(Request $request) 
+    public function addtocarts(Request $request)
     {
         $ids = $request->input('ids');
         $perdays = $request->input('perdays');
         $newCart = [];
         for ($i = 0; $i < count($ids); $i++) {
-            array_push($newCart , [
+            array_push($newCart, [
                 'id' => $ids[$i],
                 'perday' => $perdays[$i]
             ]);
@@ -84,10 +84,17 @@ class ShoppingCartController extends Controller
         return redirect('/checkout');
     }
 
+    public function cartJson(Request $request)
+    {
+        $cars = $request->session()->get('cars', []);
+
+        return response()->json($cars);
+    }
+
     public function delete()
     {
         session()->flush();
- 
+
         // session()->keep(['username', 'email']);
 
         return redirect('/');

@@ -29,13 +29,15 @@ Route::get('/cars', [LandingPageController::class, 'cars']);
 Route::get('/cars-test', [ShoppingCartController::class, 'index']);
 Route::get('/clear', [ShoppingCartController::class, 'delete']);
 Route::post('/addtocarts', [ShoppingCartController::class, 'addtocarts']);
+# cart api
+Route::get('/cart/api', [ShoppingCartController::class, 'cartJson']);
 
 # checkout
 Route::get('/checkout', [CheckoutController::class, 'index']);
 Route::post('/checkout', [CheckoutController::class, 'store']);
 
 # thank you route
-Route::get('/thankyou', function() {
+Route::get('/thankyou', function () {
     return view('thankyou');
 });
 
@@ -52,4 +54,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
