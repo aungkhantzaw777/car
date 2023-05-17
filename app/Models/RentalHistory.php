@@ -23,6 +23,5 @@ class RentalHistory extends Model
         'address2',
         'state',
         'postal_code',
-        'status'
     ];
 }

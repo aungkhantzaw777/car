@@ -17,6 +17,7 @@
                                 type="text"
                                 name="name"
                                 id="name"
+                                x-model="name"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('name') }}"
                             />
@@ -38,6 +39,7 @@
                                 type="text"
                                 name="email"
                                 id="email"
+                                x-model="email"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('username') }}"
                             />
@@ -59,6 +61,7 @@
                                 type="text"
                                 name="phone"
                                 id="phone"
+                                x-model="phone"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('phone') }}"
                             />
@@ -81,6 +84,7 @@
                                 type="text"
                                 name="address1"
                                 id="address1"
+                                x-model="address1"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('username') }}"
                             />
@@ -102,6 +106,7 @@
                                 type="text"
                                 name="address2"
                                 id="address2"
+                                x-model="address2"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('address2') }}"
                             />
@@ -123,6 +128,7 @@
                                 type="text"
                                 name="city"
                                 id="city"
+                                x-model="city"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('city') }}"
                             />
@@ -144,6 +150,7 @@
                                 type="text"
                                 name="state"
                                 id="state"
+                                x-model="state"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('state') }}"
                             />
@@ -165,7 +172,8 @@
                             <input
                                 type="text"
                                 name="postal_code"
-                                id="username"
+                                id="postal_code"
+                                x-model="postal_code"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('username') }}"
                             />
@@ -180,7 +188,7 @@
                         <button
                             type="button"
                             class="btn btn-blue btn-blue:hover"
-                            @click="isOpen = !isOpen"
+                            @click="onSubmit"
                         >
                             Submit
                         </button>
@@ -190,7 +198,6 @@
             <div class="col-span-1">
                 <div class="shadow-md rounded-lg p-4 space-y-3">
                     @foreach($cars as $car)
-                    {{-- {{$car['id']}} --}}
                     <div class="flex w-full flex-nowrap">
                         <div class="w-1/3">
                             <img src="{{ $car['image'] }}" alt="Images" />
@@ -264,12 +271,15 @@
                                         Confirmation
                                     </h3>
                                     <div class="mt-2">
-                                        <p class="text-sm text-gray-500">
-                                            Are you sure you want to deactivate
-                                            your account? All of your data will
-                                            be permanently removed. This action
-                                            cannot be undone.
-                                        </p>
+                                        <template x-if="isFetch">
+                                            loading...
+                                        </template>
+                                        <template x-if="!isFetch">
+                                            <p class="text-sm text-gray-500">
+                                                your total price is
+                                                <b x-text="total"></b>
+                                            </p>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -277,12 +287,55 @@
                         <div
                             class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
                         >
-                            <button
-                                type="button"
-                                class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                            >
-                                Confirm
-                            </button>
+                            <form method="post" action="/checkout">
+                                @csrf
+                                <input
+                                    type="hidden"
+                                    x-model="name"
+                                    name="name"
+                                />
+                                <input
+                                    type="hidden"
+                                    x-model="email"
+                                    name="email"
+                                />
+                                <input
+                                    type="hidden"
+                                    x-model="phone"
+                                    name="phone"
+                                />
+                                <input
+                                    type="hidden"
+                                    x-model="address1"
+                                    name="address1"
+                                />
+                                <input
+                                    type="hidden"
+                                    x-model="address2"
+                                    name="address2"
+                                />
+                                <input
+                                    type="hidden"
+                                    x-model="city"
+                                    name="city"
+                                />
+                                <input
+                                    type="hidden"
+                                    x-model="state"
+                                    name="state"
+                                />
+                                <input
+                                    type="hidden"
+                                    x-model="postal_code"
+                                    name="postal_code"
+                                />
+                                <button
+                                    type="submit"
+                                    class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                                >
+                                    Confirm
+                                </button>
+                            </form>
                             <button
                                 @click="isOpen = false"
                                 type="button"
@@ -300,6 +353,28 @@
         function checkout() {
             return {
                 isOpen: false,
+                email: "",
+                name: "",
+                phone: "",
+                address1: "",
+                address2: "",
+                city: "",
+                state: "",
+                postal_code: "",
+                isFetch: false,
+                total: 0,
+                onSubmit: async function () {
+                    this.isFetch = true;
+                    this.isOpen = true;
+                    const response = await fetch(
+                        "/check/user?email=" + this.email
+                    ).then((r) => r.json());
+                    let total = response.total;
+                    if (total) {
+                        this.total = parseInt(total);
+                    }
+                    this.isFetch = false;
+                },
             };
         }
     </script>
