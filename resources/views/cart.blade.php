@@ -84,9 +84,10 @@
                                                 <div class="flex">
                                                     <button
                                                         type="button"
+                                                        @click="removeItem(cart.id)"
                                                         class="font-medium text-indigo-600 hover:text-indigo-500"
                                                     >
-                                                        Remove
+                                                        Delete
                                                     </button>
                                                 </div>
                                             </div>
@@ -104,7 +105,7 @@
                         <p>Total</p>
                         <p><span>$</span><span x-text="total"></span></p>
                     </div>
-                    <div class="mt-6">
+                    <div class="mt-6 flex justify-end">
                         <button
                             href="/checkout"
                             class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
@@ -112,6 +113,11 @@
                             Checkout
                         </button>
                     </div>
+                </div>
+                <div>
+                    <a class="flex justify-center text-blue-700" href="/"
+                        >Continue Shopping</a
+                    >
                 </div>
             </div>
         </form>
@@ -122,6 +128,9 @@
             return {
                 carts: [],
                 total: 0,
+                removeItem: async function (id) {
+                    this.carts = this.carts.filter((cart) => cart.id !== id);
+                },
                 fetchCartData: async function () {
                     const carts = await fetch("/cart/api")
                         .then((r) => r.json())
@@ -149,7 +158,7 @@
                                 parseInt(item.price) * parseInt(item.perdays),
                             0
                         );
-                        console.log("total is", total);
+                        // console.log("total is", total);
                         this.total = total;
                         // let total = newValue;
                     });
