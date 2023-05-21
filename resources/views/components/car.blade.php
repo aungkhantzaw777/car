@@ -58,7 +58,7 @@
             @csrf
             <input type="hidden" name="id" value="{{ $id }}" />
             <input type="hidden" name="name" value="{{ $name }}" />
-            <input type="hidden" name="price" value="{{ $seat }}" />
+            <input type="hidden" name="price" value="{{ $price }}" />
             <input type="hidden" name="seat" value="{{ $mileage }}" />
             <input type="hidden" name="category" value="{{ $category }}" />
             <input type="hidden" name="image" value="{{ $image }}" />

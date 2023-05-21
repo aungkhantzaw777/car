@@ -99,4 +99,20 @@ class ShoppingCartController extends Controller
 
         return redirect('/');
     }
+    public function remove(string $id) 
+    {
+        $cars = session()->get('cars', []);
+
+        // loop through cart items to find item with matching ID
+        foreach ($cars as $key => $item) {
+            if ($item['id'] == $id) {
+                // remove item from cart
+                unset($cars[$key]);
+                break;
+            }
+        }
+        session()->put('cars', $cars);
+        return back()->with('success', 'Item removed from cart!');
+
+    }
 }

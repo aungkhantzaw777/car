@@ -60,21 +60,27 @@
                                             <div
                                                 class="flex flex-1 items-end justify-between text-sm"
                                             >
-                                                <p class="text-gray-500">
-                                                    <input
-                                                        type="hidden"
-                                                        x-model="cart.id"
-                                                        name="ids[]"
-                                                    />
-                                                    <input
-                                                        type="number"
-                                                        name="perdays[]"
-                                                        x-model="cart.perdays"
-                                                        min="1"
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                                        placeholder="1"
-                                                    />
-                                                </p>
+                                                <div
+                                                    class="flex items-center space-x-3"
+                                                >
+                                                    <span>Rental Days</span>
+                                                    <p class="text-gray-500">
+                                                        <input
+                                                            type="hidden"
+                                                            x-model="cart.id"
+                                                            name="ids[]"
+                                                        />
+
+                                                        <input
+                                                            type="number"
+                                                            name="perdays[]"
+                                                            x-model="cart.perdays"
+                                                            min="1"
+                                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                                            placeholder="1"
+                                                        />
+                                                    </p>
+                                                </div>
                                                 <div class="flex">
                                                     <button
                                                         type="button"

@@ -29,6 +29,7 @@ Route::get('/cars', [LandingPageController::class, 'cars']);
 Route::get('/cars-test', [ShoppingCartController::class, 'index']);
 Route::get('/clear', [ShoppingCartController::class, 'delete']);
 Route::post('/addtocarts', [ShoppingCartController::class, 'addtocarts']);
+Route::delete('/remove/{id}', [ShoppingCartController::class, 'remove']);
 # cart api
 Route::get('/cart/api', [ShoppingCartController::class, 'cartJson']);
 

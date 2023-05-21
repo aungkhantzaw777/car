@@ -284,6 +284,12 @@
                                                     x-text="total"
                                                 ></span>
                                             </p>
+                                            <template x-if="count == 0">
+                                                <p>
+                                                    $200 will be applied to new
+                                                    user
+                                                </p>
+                                            </template>
                                         </template>
                                     </div>
                                 </div>
@@ -358,6 +364,7 @@
         function checkout() {
             return {
                 isOpen: false,
+                count: 0,
                 email: "",
                 name: "",
                 phone: "",
@@ -375,8 +382,11 @@
                         "/check/user?email=" + this.email
                     ).then((r) => r.json());
                     let total = response.total;
+                    let count = response.count;
+                    console.log(count);
                     if (total) {
                         this.total = parseInt(total);
+                        this.count = parseInt(count);
                     }
                     this.isFetch = false;
                 },
