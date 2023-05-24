@@ -11,5 +11,6 @@
         seat="{{$item['Seats']}}"
         mileage="{{$item['Mileage']}}"
         category="{{$item['Category']}}"
+        avaliable="{{$item['Availability']}}"
         />
 @endforeach

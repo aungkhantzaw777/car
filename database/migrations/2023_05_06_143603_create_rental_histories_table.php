@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('address2')->nullable();
             $table->string('city');
             $table->string('state');
+            // $table->enum('status', ['panding', 'confirm']);
             $table->string('postal_code');
             $table->timestamps();
         });

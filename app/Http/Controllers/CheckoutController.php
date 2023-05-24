@@ -11,7 +11,15 @@ class CheckoutController extends Controller
 {
     public function index(Request $request)
     {
-        return view('checkout');
+        $cars = $request->session()->get('cars', []);
+
+        $total = 0;
+        foreach($cars as $car) {
+            $total += (int)$car['perday'] * (int)$car['price'];
+        }
+        // dd($total);
+
+        return view('checkout', compact('cars', 'total'));
     }
     public function store(Request $request)
     {
@@ -25,21 +33,23 @@ class CheckoutController extends Controller
             'postal_code' => 'required|string|max:255',
         ]);
         $newRent = $request->all();
+        $newRent['status'] = 'pending';
         $history = RentalHistory::create($newRent);
         $cars = $request->session()->get('cars', []);
         $currentDate = Carbon::now();
-        $overdue = $currentDate->addDay();
         foreach($cars as $car) {
+            $overdue = $currentDate->addDay((int)$car['perday'] ?? 1);
+
             RentCar::create([
                 'car_id' => $car['id'],
                 'overdue' => $overdue->format('Y-m-d H:i:s'),
                 'rental_history_id' => $history->id
-
-
             ]);
         }
 
-        return redirect('/');
+        session()->flush();
+
+        return redirect('/thankyou');
         
     }
 }

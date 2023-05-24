@@ -16,21 +16,34 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+# other pages
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/detail/{id}', [LandingPageController::class, 'detail']);
 
+# shopping cart route
 Route::get('/cart', [ShoppingCartController::class, 'index']);
-
 Route::post('/cart', [ShoppingCartController::class, 'store']);
 Route::get('/cars', [LandingPageController::class, 'cars']);
 Route::get('/cars-test', [ShoppingCartController::class, 'index']);
 Route::get('/clear', [ShoppingCartController::class, 'delete']);
+Route::post('/addtocarts', [ShoppingCartController::class, 'addtocarts']);
+Route::delete('/remove/{id}', [ShoppingCartController::class, 'remove']);
+# cart api
+Route::get('/cart/api', [ShoppingCartController::class, 'cartJson']);
 
 # checkout
 Route::get('/checkout', [CheckoutController::class, 'index']);
 Route::post('/checkout', [CheckoutController::class, 'store']);
+
+# thank you route
+Route::get('/thankyou', function () {
+    return view('thankyou');
+});
+
+# Api
+Route::get('/check/user', [LandingPageController::class, 'checkuser']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -42,4 +55,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
