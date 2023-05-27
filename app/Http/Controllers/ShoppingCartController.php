@@ -72,7 +72,7 @@ class ShoppingCartController extends Controller
         $cars->transform(function ($car) use ($newCart) {
             foreach ($newCart as $newCar) {
                 if ($car['id'] === $newCar['id']) {
-                    $car['perday'] = $newCar['perday'];
+                    $car['perdays'] = $newCar['perday'];
                     break;
                 }
             }
@@ -99,7 +99,7 @@ class ShoppingCartController extends Controller
 
         return redirect('/');
     }
-    public function remove(string $id) 
+    public function remove(string $id)
     {
         $cars = session()->get('cars', []);
 
@@ -113,6 +113,54 @@ class ShoppingCartController extends Controller
         }
         session()->put('cars', $cars);
         return back()->with('success', 'Item removed from cart!');
+    }
 
+    public function removeItem(string $id)
+    {
+        $cars = session()->get('cars', []);
+
+        // loop through cart items to find item with matching ID
+        foreach ($cars as $key => $item) {
+            if ($item['id'] == $id) {
+                // remove item from cart
+                unset($cars[$key]);
+                break;
+            }
+        }
+
+        session()->put('cars', $cars);
+        return response()->json([
+            'id' => $id
+        ]);
+    }
+    public function perdayItem(Request $request)
+    {
+        $cars = collect($request->session()->get('cars', []));
+
+        $id = $request->input('id');
+        $perdays = $request->input('perdays');
+        $updateCar = ['id' => $id, 'perdays' => $perdays];
+        // dd($updateCar['id']);
+        $cars->transform(function ($car) use ($updateCar) {
+            if ($updateCar['id'] === $car['id']) {
+                $car['perdays'] = $updateCar['perdays'];
+            }
+
+            return $car;
+        });
+        $request->session()->put('cars', $cars);
+
+
+        return response()->json([
+            'status' => 'success'
+        ]);
+    }
+    public function count()
+    {
+        $cars = session()->get('cars', []);
+
+        return response()->json([
+            'count' => count($cars)
+        ]);
     }
 }

@@ -1,5 +1,5 @@
 <nav class="bg-white shadow">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div x-data="menu" x-init="init" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 justify-between">
         <div class="flex">
           <div class="-ml-2 mr-2 flex items-center md:hidden">
@@ -43,9 +43,10 @@
                 <path fill-rule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 004.25 22.5h15.5a1.875 1.875 0 001.865-2.071l-1.263-12a1.875 1.875 0 00-1.865-1.679H16.5V6a4.5 4.5 0 10-9 0zM12 3a3 3 0 00-3 3v.75h6V6a3 3 0 00-3-3zm-3 8.25a3 3 0 106 0v-.75a.75.75 0 011.5 0v.75a4.5 4.5 0 11-9 0v-.75a.75.75 0 011.5 0v.75z" clip-rule="evenodd" />
               </svg>
               Carts
-              @if(session()->has('cars'))
+              <!-- @if(session()->has('cars'))
                   {{ count(session('cars', [])) }}
-              @endif
+              @endif -->
+              <span x-text="$store.totalCount.total !== 0 ? $store.totalCount.total : ''"></span>
             </a>
           </div>
           
@@ -58,9 +59,23 @@
       <div class="space-y-1 pb-3 pt-2">
         <!-- Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" -->
         <a href="/" class="block border-l-4 border-indigo-500 bg-indigo-50 py-2 pl-3 pr-4 text-base font-medium text-indigo-700 sm:pl-5 sm:pr-6">Home</a>
-        
       </div>
-      
     </div>
   </nav>
-  
+  <script>
+    function menu() {
+      return {
+        init: async function() {
+          const data = await fetch('/cart/count').then(r => r.json())
+
+          if(!data) return 
+          
+          const count = parseInt(data.count)
+
+          window.Alpine.store('totalCount').update(count)
+
+          console.log('count', count)
+        }
+      }
+    }
+  </script>

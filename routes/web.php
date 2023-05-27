@@ -30,6 +30,9 @@ Route::get('/cars-test', [ShoppingCartController::class, 'index']);
 Route::get('/clear', [ShoppingCartController::class, 'delete']);
 Route::post('/addtocarts', [ShoppingCartController::class, 'addtocarts']);
 Route::delete('/remove/{id}', [ShoppingCartController::class, 'remove']);
+Route::get('/removeItem/{id}', [ShoppingCartController::class, 'removeItem']);
+Route::get('/cart/update', [ShoppingCartController::class, 'perdayItem']);
+Route::get('/cart/count', [ShoppingCartController::class, 'count']);
 # cart api
 Route::get('/cart/api', [ShoppingCartController::class, 'cartJson']);
 
