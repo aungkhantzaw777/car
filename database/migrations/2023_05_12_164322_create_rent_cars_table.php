@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('car_id');
             $table->string('rental_history_id');
-            $table->timestamp('overdue');
+            $table->date('overdue');
             $table->timestamps();
         });
     }
