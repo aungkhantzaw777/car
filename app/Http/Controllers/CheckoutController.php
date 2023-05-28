@@ -14,8 +14,8 @@ class CheckoutController extends Controller
         $cars = $request->session()->get('cars', []);
 
         $total = 0;
-        foreach($cars as $car) {
-            $total += (int)$car['perday'] * (int)$car['price'];
+        foreach ($cars as $car) {
+            $total += (int)$car['perdays'] * (int)$car['price'];
         }
         // dd($total);
 
@@ -37,8 +37,8 @@ class CheckoutController extends Controller
         $history = RentalHistory::create($newRent);
         $cars = $request->session()->get('cars', []);
         $currentDate = Carbon::now();
-        foreach($cars as $car) {
-            $overdue = $currentDate->addDay((int)$car['perday'] ?? 1);
+        foreach ($cars as $car) {
+            $overdue = $currentDate->addDay((int)$car['perdays'] ?? 1);
 
             RentCar::create([
                 'car_id' => $car['id'],
@@ -50,6 +50,5 @@ class CheckoutController extends Controller
         session()->flush();
 
         return redirect('/thankyou');
-        
     }
 }

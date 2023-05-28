@@ -16,6 +16,7 @@
                                 type="text"
                                 name="name"
                                 id="name"
+                                autocomplete="off"
                                 x-model="name"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('name') }}"
@@ -38,6 +39,7 @@
                                 type="text"
                                 name="email"
                                 id="email"
+                                autocomplete="off"
                                 x-model="email"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('username') }}"
@@ -60,6 +62,7 @@
                                 type="text"
                                 name="phone"
                                 id="phone"
+                                autocomplete="off"
                                 x-model="phone"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('phone') }}"
@@ -83,6 +86,7 @@
                                 type="text"
                                 name="address1"
                                 id="address1"
+                                autocomplete="off"
                                 x-model="address1"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('username') }}"
@@ -106,6 +110,7 @@
                                 name="address2"
                                 id="address2"
                                 x-model="address2"
+                                autocomplete="off"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('address2') }}"
                             />
@@ -125,6 +130,7 @@
                         <div class="relative mt-2 rounded-md shadow-sm">
                             <input
                                 type="text"
+                                autocomplete="off"
                                 name="city"
                                 id="city"
                                 x-model="city"
@@ -149,6 +155,7 @@
                                 type="text"
                                 name="state"
                                 id="state"
+                                autocomplete="off"
                                 x-model="state"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 value="{{ old('state') }}"
@@ -171,6 +178,7 @@
                             <input
                                 type="text"
                                 name="postal_code"
+                                autocomplete="off"
                                 id="postal_code"
                                 x-model="postal_code"
                                 class="block w-full rounded-md border-0 py-1.5 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -209,10 +217,10 @@
                                 >
                             </div>
                             <div class="flex justify-between">
-                                <span>Perday : {{ $car["perday"] }}</span>
+                                <span>Perday : {{ $car["perdays"] }}</span>
                                 <span
                                     >$
-                                    {{ (int)$car['price'] * (int)$car['perday'] }}</span
+                                    {{ (int)$car['price'] * (int)$car['perdays'] }}</span
                                 >
                             </div>
                         </div>
@@ -271,7 +279,7 @@
                                     </h3>
                                     <div class="mt-2">
                                         <template x-if="isFetch">
-                                            loading...
+                                            <div>loading...</div>
                                         </template>
                                         <template x-if="!isFetch">
                                             <p class="text-sm text-gray-500">
@@ -284,12 +292,14 @@
                                                     x-text="total"
                                                 ></span>
                                             </p>
-                                            <template x-if="count == 0">
-                                                <p>
-                                                    $200 will be applied to new
-                                                    user
-                                                </p>
-                                            </template>
+                                        </template>
+                                        <template x-if="count === 0">
+                                            <p
+                                                class="text-gray-500 text-sm mt-4"
+                                            >
+                                                Note : $200 will be applied to
+                                                new user
+                                            </p>
                                         </template>
                                     </div>
                                 </div>
@@ -376,6 +386,10 @@
                 isFetch: false,
                 total: 0,
                 onSubmit: async function () {
+                    if (this.email === "") {
+                        alert("please fill your email!");
+                        return false;
+                    }
                     this.isFetch = true;
                     this.isOpen = true;
                     const response = await fetch(
