@@ -13,6 +13,10 @@ class CheckoutController extends Controller
     {
         $cars = $request->session()->get('cars', []);
 
+        if (count($cars) === 0) {
+            return redirect('/');
+        }
+
         $total = 0;
         foreach ($cars as $car) {
             $total += (int)$car['perdays'] * (int)$car['price'];

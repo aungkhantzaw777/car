@@ -12,6 +12,9 @@ class ShoppingCartController extends Controller
     {
         $cars = $request->session()->get('cars', []);
         $totalPrice = 0;
+        if (count($cars) === 0) {
+            return redirect('/');
+        }
 
         foreach ($cars as $item) {
             $totalPrice += (int)$item['price'];
