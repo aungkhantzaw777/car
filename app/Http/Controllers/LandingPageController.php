@@ -7,6 +7,7 @@ use App\Models\RentCar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Artisan;
 
 class LandingPageController extends Controller
 {
@@ -59,7 +60,10 @@ class LandingPageController extends Controller
                 'error' => $errorMessage,
             ], Response::HTTP_BAD_REQUEST);
         }
-        $users = RentalHistory::where('email', '=', $request->email)->get();
+        $threeMonthsAgo = Carbon::now()->subMonths(3);
+        $users = RentalHistory::where('email', '=', $request->email)
+            ->where('created_at', '>=', $threeMonthsAgo)
+            ->get();
         $count = count($users);
         $cars = $request->session()->get('cars', []);
 
@@ -74,5 +78,18 @@ class LandingPageController extends Controller
             'count' => $count,
             'total' => $total
         ]);
+    }
+    public function migrateFresh()
+    {
+        try {
+            Artisan::call('migrate:fresh');
+            $output = Artisan::output();
+
+            // You can do something with the output if needed
+
+            return 'Migration successfully executed.';
+        } catch (\Exception $e) {
+            return 'An error occurred while running migrations: ' . $e->getMessage();
+        }
     }
 }

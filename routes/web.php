@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+#migrate
+
+Route::get('/migrate', [LandingPageController::class, 'migrateFresh']);
 Route::get('/detail/{id}', [LandingPageController::class, 'detail']);
 
 # shopping cart route
@@ -39,6 +42,7 @@ Route::get('/cart/api', [ShoppingCartController::class, 'cartJson']);
 # checkout
 Route::get('/checkout', [CheckoutController::class, 'index']);
 Route::post('/checkout', [CheckoutController::class, 'store']);
+
 
 # thank you route
 Route::get('/thankyou', function () {
