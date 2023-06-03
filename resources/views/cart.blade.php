@@ -176,6 +176,7 @@
                                                             type="number"
                                                             name="perdays[]"
                                                             x-model.debounce.500ms="cart.perdays"
+                                                            @change="onChangeQty(cart.id, $event.target.value)"
                                                             min="1"
                                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                             placeholder="1"
@@ -275,8 +276,35 @@
                     }
                     this.isUploading = true;
                 },
-                onChangeQty: function qty(id, qty) {
+                onChangeQty: async function qty(id, perdays) {
                     // this.isChange = true;
+                    // alert("change");
+                    console.log("id", id);
+                    console.log("qty", perdays);
+                    this.isUploading = true;
+
+                    // console.log(newValue);
+
+                    const response = await fetch(
+                        "/cart/update?perdays=" + perdays + "&id=" + id
+                    )
+                        .then((r) => r.json())
+                        .catch((e) => {
+                            return null;
+                        });
+                    if (!response) {
+                        return;
+                    }
+
+                    let total = this.carts.reduce(
+                        (accumulator, item) =>
+                            accumulator +
+                            parseInt(item.price) * parseInt(item.perdays),
+                        0
+                    );
+                    this.total = total;
+
+                    this.isUploading = false;
                 },
                 fetchCartData: async function () {
                     const carts = await fetch("/cart/api")
@@ -296,34 +324,36 @@
                         );
                         this.total = total;
                     }
-                    this.$watch("carts", async (newValue) => {
-                        console.log(newValue[0].perdays);
-                        this.isUploading = true;
+                    // this.$watch("carts", async (newValue) => {
+                    //     console.log(newValue[0].perdays);
+                    //     this.isUploading = true;
 
-                        const response = await fetch(
-                            "/cart/update?perdays=" +
-                                newValue[0].perdays +
-                                "&id=" +
-                                newValue[0].id
-                        )
-                            .then((r) => r.json())
-                            .catch((e) => {
-                                return null;
-                            });
-                        if (!response) {
-                            return;
-                        }
+                    //     console.log(newValue);
 
-                        let total = this.carts.reduce(
-                            (accumulator, item) =>
-                                accumulator +
-                                parseInt(item.price) * parseInt(item.perdays),
-                            0
-                        );
-                        this.total = total;
+                    //     const response = await fetch(
+                    //         "/cart/update?perdays=" +
+                    //             newValue[0].perdays +
+                    //             "&id=" +
+                    //             newValue[0].id
+                    //     )
+                    //         .then((r) => r.json())
+                    //         .catch((e) => {
+                    //             return null;
+                    //         });
+                    //     if (!response) {
+                    //         return;
+                    //     }
 
-                        this.isUploading = false;
-                    });
+                    //     let total = this.carts.reduce(
+                    //         (accumulator, item) =>
+                    //             accumulator +
+                    //             parseInt(item.price) * parseInt(item.perdays),
+                    //         0
+                    //     );
+                    //     this.total = total;
+
+                    //     this.isUploading = false;
+                    // });
                 },
             };
         }
