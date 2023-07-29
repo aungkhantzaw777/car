@@ -89,7 +89,11 @@ class ShoppingCartController extends Controller
 
     public function cartJson(Request $request)
     {
-        $cars = $request->session()->get('cars', []);
+        $cars = collect($request->session()->get('cars', []));
+        // $data = json_decode($cars, true);
+
+        // dd($cars);
+
 
         return response()->json($cars);
     }
@@ -122,16 +126,22 @@ class ShoppingCartController extends Controller
     {
         $cars = session()->get('cars', []);
 
+        $newCars = [];
+
         // loop through cart items to find item with matching ID
         foreach ($cars as $key => $item) {
             if ($item['id'] == $id) {
                 // remove item from cart
-                unset($cars[$key]);
-                break;
+                // unset($cars[$key]);
+                // break;
+            }else {
+                array_push($newCars,$item);
             }
         }
 
-        session()->put('cars', $cars);
+        // $cars = $cars->where('id', '!=', $id)->toArray();
+        
+        session()->put('cars', $newCars);
         return response()->json([
             'id' => $id
         ]);
