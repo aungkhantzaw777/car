@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 # other pages
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [LandingPageController::class, 'index']);
 #migrate
 
 Route::get('/migrate', [LandingPageController::class, 'migrateFresh']);

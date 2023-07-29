@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RentalHistory;
 use App\Models\RentCar;
+use App\Models\Server;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,10 +14,17 @@ class LandingPageController extends Controller
 {
     public function index()
     {
-        $jsonString = file_get_contents(public_path('car.json'));
-        $data = json_decode($jsonString, true);
+        // $jsonString = file_get_contents(public_path('car.json'));
+        // $data = json_decode($jsonString, true);
 
-        return response()->json($data);
+        // return response()->json($data);
+        $server = Server::where('id', 1)->first();
+        // foreach($server as $item) {
+        //     echo $item->name;
+        // }
+        // dd($server->name);
+
+        return view('welcome', compact('server'));
     }
 
     public function cars()
